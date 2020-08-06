@@ -1,0 +1,26 @@
+{
+  "name": "backend-graph-oriented-movies",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/msant0/backend-graph-oriented-movies.git"
+  },
+  "dependencies": {
+    "express": "*",
+    "body-parser": "*",
+    "ejs": "^2.4.2",
+    "morgan": "*",
+    "neo4j-driver": "*"
+  },
+  "author": "msant0",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/msant0/backend-graph-oriented-movies/issues"
+  },
+  "homepage": "https://github.com/msant0/backend-graph-oriented-movies#readme"
+}
