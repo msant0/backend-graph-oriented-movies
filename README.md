@@ -1,6 +1,6 @@
 # Experiment Lab 🧪
 
-<p align="center"><img src="./src/assets/img/icon-readme.png" width="320" height="320" /></p>
+<p align="center"><img src="./assets/icon-readme.png" width="320" height="320" /></p>
 
 ## Objective
 <p style="font-size:14px;"><i> * First contact with the graph-oriented database integrated with Nodejs! </i></p>
