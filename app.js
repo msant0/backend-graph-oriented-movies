@@ -67,30 +67,89 @@ app.post('/movie/add', function (req, res) {
         })
 })
 
-app.post('/person/add', function (req,res){
+app.post('/person/add', function (req, res) {
     const name = req.body.name
     const born = req.body.born
 
     session
         .run(`CREATE(n:Person { name: '${name}', born: '${born}'}) RETURN n.name`)
-        .then(function(result){
+        .then(function (result) {
             res.redirect('/')
         })
-        .catch(function(err){
+        .catch(function (err) {
             console.log(err)
         })
 })
 
-app.post('/movie/person/add', function (req,res){
+app.post('/movie/person/add', function (req, res) {
     const title = req.body.title
     const name = req.body.name
 
     session
         .run(`MATCH(p: Person { name: '${name}'}), (m: Movie {title: '${title}'}) MERGE(p)-[r:ACTED_IN]-(m) RETURN p,m`)
-        .then(function(result){
+        .then(function (result) {
             res.redirect('/')
         })
-        .catch(function(err){
+        .catch(function (err) {
+            console.log(err)
+        })
+})
+
+app.post('/movie/rename', function (req, res) {
+    const title = req.body.title
+    const newTitle = req.body.newTitle
+
+    session
+        .run(`MATCH (m:Movie) WHERE m.title='${title}' SET m.title='${newTitle}'`)
+        .then(function (result) {
+            res.redirect('/')
+        })
+        .catch(function (err) {
+            console.log(err)
+        })
+})
+
+app.post('/person/rename', function (req, res) {
+    const name = req.body.name
+    const newName = req.body.newName
+
+    session
+        .run(`MATCH (per:Person) WHERE per.name='${name}' SET per.name= '${newName}'`)
+        .then(function (result) {
+            res.redirect('/')
+        })
+        .catch(function (err) {
+            console.log(err)
+        })
+})
+
+app.post('/movie/person/create', function (req, res) {
+    const name = req.body.name
+    const title = req.body.title
+    const yearPerfomance = req.body.yearPerfomance
+
+    session
+        .run(`CREATE (per:Person {name: '${name}'})-[:ACTED_IN {year: ${yearPerfomance}}]-> (mov:Movie {title: '${title}'}) return per, mov`)
+        .then(function (result) {
+            res.redirect('/')
+        })
+        .catch(function (err) {
+            console.log(err)
+        })
+})
+
+app.post('/movie/person/list', function (req, res) {
+    const name = req.body.name
+
+    session
+        .run(`MATCH (per: Person {name: '${name}'})-[:ACTED_IN]-> (mov: Movie) return mov.title`)
+        .then(function (result) {
+            console.log("----- Movies -----")
+            result.records.forEach(function (record) {
+                console.log(record._fields[0])
+            })
+            res.redirect('/')
+        }).catch(function (err) {
             console.log(err)
         })
 })

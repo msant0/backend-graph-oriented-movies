@@ -1,4 +1,5 @@
 <form method="post" action="/movie/add">
+    <h2>Add Movies</h2>
     <label>Movie Name</label><br>
     <input type="text" name="title">
     <br>
@@ -8,6 +9,7 @@
     <input type="submit" value="submit">
 </form>
 <form method="post" action="/person/add">
+    <h2>Add Persons</h2>
     <label>Person Name</label><br>
     <input type="text" name="name"><br>
     <br>
@@ -17,6 +19,7 @@
     <input type="submit" value="submit">
 </form>
 <form method="post" action="/movie/person/add">
+    <h2>Add Relationship "ACTED_IN" in Movies with Persons </h2>
     <label>Movie Name</label><br>
     <input type="text" name="title">
     <br>
@@ -25,6 +28,43 @@
     <br><br>
     <input type="submit" value="submit">
 </form>
+<form method="post" action="/movie/rename">
+    <h2>Rename your Movie</h2>
+    <label>Movie Name</label><br>
+    <input type="text" name="title"><br>
+    <label>New Movie Name</label><br>
+    <input type="text" name="newTitle">
+    <br><br>
+    <input type="submit" value="submit">
+</form>
+<form method="post" action="/person/rename">
+    <h2>Rename your Actor</h2>
+    <label>Actor Name</label><br>
+    <input type="text" name="name"><br>
+    <label>New Actor Name</label><br>
+    <input type="text" name="newName"><br>
+    <br><br>
+    <input type="submit" value="submit">
+</form>
+<form method="post" action="/movie/person/create">
+    <h2>Create a new actor related (ACTED_IN) to a new Movie with the properly year of operation</h2>
+    <label>Actor Name</label><br>
+    <input type="text" name="name"><br>
+    <label>Movie Name</label><br>
+    <input type="text" name="title"><br>
+    <label>Year of perfomance</label><br>
+    <input type="text" name="yearPerfomance">
+    <br><br>
+    <input type="submit" value="submit">
+</form>
+<form method="post" action="/movie/person/list">
+    <h2>List Movies that the actor acted</h2>
+    <label>Actor Name<label><br>
+    <input type="text" name="name"><br>
+    <br><br>
+    <input type="submit" value="submit">
+</form>
+
 <h1>Movies</h1>
 <ul>
     <% movies.forEach(function(movie){ %>
