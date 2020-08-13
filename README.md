@@ -7,7 +7,6 @@
 
 ## Features
 <p style="font-size:14px;"><i> * Neo4j -> NoSQL database</i></p>
-<p style="font-size:14px;"><i> * CSS -> Stylization of elements </i></p>
 <p style="font-size:14px;"><i> * HTML -> Hypertext Markup Language </i></p>
 
 ## Get started
