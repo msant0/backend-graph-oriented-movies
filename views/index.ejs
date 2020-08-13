@@ -89,6 +89,38 @@
     <br><br>
     <input type="submit" value="submit">
 </form>
+<form method="post" action="/movie/deleteDescription">
+    <h2>Delete the 'description' propertie to the movie</h2>
+    <label>Select the Movie</label><br>
+    <input type="text" name="title"><br>
+    <br><br>
+    <input type="submit" value="submit">
+</form>
+<form method="post" action="/movie/setDescriptionNull">
+    <h2>Set the 'description' propertie as NULL</h2>
+    <label>Select the Movie</label><br>
+    <input type="text" name="title"><br>
+    <br><br>
+    <input type="submit" value="submit">
+</form>
+<form method="post" action="/movie/setDescriptionOnCreate">
+    <h2>Set the 'description' propertie by ON CREATE</h2>
+    <label>Select the Movie</label><br>
+    <input type="text" name="title"><br>
+    <label>Select the New Description Movie</label><br>
+    <input type="text" name="description"><br>
+    <br><br>
+    <input type="submit" value="submit">
+</form>
+<form method="post" action="/movie/modifyDescriptionOnMatch">
+    <h2>Set the 'description' propertie by ON MATCH</h2>
+    <label>Select the Movie</label><br>
+    <input type="text" name="title"><br>
+    <label>Select the Description Movie</label><br>
+    <input type="text" name="description"><br>
+    <br><br>
+    <input type="submit" value="submit">
+</form>
 <form method="post" action="/person/addSince">
     <h2>Add 'since' propertie to the relationship between two persons</h2>
     <label>Type the 1ºPerson</label><br>
@@ -109,10 +141,17 @@
     <br><br>
     <input type="submit" value="submit">
 </form>
-<form method="post" action="/person/deleteFriendship">
+<form method="post" action="/person/delete">
     <h2>Remove Person node</h2>
     <label>Type the Person</label><br>
     <input type="text" name="name"><br>
+    <br><br>
+    <input type="submit" value="submit">
+</form>
+<form method="post" action="/movie/deleteNoAndLabel">
+    <h2>Remove Movie Node and Aresta</h2>
+    <label>Movie Name</label><br>
+    <input type="text" name="title"><br>
     <br><br>
     <input type="submit" value="submit">
 </form>

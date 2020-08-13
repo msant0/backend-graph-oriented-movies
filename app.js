@@ -188,8 +188,59 @@ app.post('/movie/addDescription', function (req, res) {
     const description = req.body.description
 
     session
-        .run(`MATCH (mov: Movie {title: '${title}'}) SET mov.description = '${description}'`)
+        .run(`MATCH (mov: Movie {title: '${title}'}) SET mov.description = "${description}"`)
         .then(function (result) {
+            res.redirect('/')
+        }).catch(function (err) {
+            console.log(err)
+        })
+})
+
+app.post('/movie/deleteDescription', function (req, res) {
+    const title = req.body.title
+
+    session
+        .run(`MATCH (mov: Movie {title: '${title}'}) REMOVE mov.description`)
+        .then(function (result) {
+            res.redirect('/')
+        })
+        .catch(function (err) {
+            console.log(err)
+        })
+})
+
+app.post('/movie/setDescriptionNull', function (req, res) {
+    const title = req.body.title
+
+    session
+        .run(`MATCH (mov: Movie {title: '${title}'}) SET mov.description = null`)
+        .then(function (result) {
+            res.redirect('/')
+        }).catch(function (err) {
+            console.log(err)
+        })
+})
+
+app.post('/movie/setDescriptionOnCreate', function (req, res) {
+    const title = req.body.title
+    const description = req.body.description
+
+    session
+        .run(`MERGE (mov: Movie {title: '${title}'}) ON CREATE SET mov.description="${description}"`)
+        .then(function () {
+            res.redirect('/')
+        }).catch(function (err) {
+            console.log(err)
+        })
+})
+
+app.post('/movie/modifyDescriptionOnMatch', function (req, res) {
+    const title = req.body.title
+    const description = req.body.description
+
+    session
+        .run(`MERGE (mov: Movie {title: '${title}'}) ON MATCH SET mov.description="${description}"`)
+        .then(function () {
             res.redirect('/')
         }).catch(function (err) {
             console.log(err)
@@ -229,9 +280,21 @@ app.post('/person/delete', function (req, res) {
 
     session
         .run(`MATCH (per: Person {name: '${name}'}) DELETE per`)
-        .then(function(){
+        .then(function () {
             res.redirect('/')
-        }).catch(function(err){
+        }).catch(function (err) {
+            console.log(err)
+        })
+})
+
+app.post('/movie/deleteNoAndLabel', function (req, res) {
+    const title = req.body.title
+
+    session
+        .run(`MATCH (mov: Movie {title: '${title}'}) DETACH DELETE mov`)
+        .then(function () {
+            res.redirect('/')
+        }).catch(function (err) {
             console.log(err)
         })
 })
