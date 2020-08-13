@@ -15,7 +15,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, 'public')))
 
-const driver = neo4j.driver('bolt://localhost:7687', neo4j.auth.basic('neo4j', 'neo4j'))
+const driver = neo4j.driver('bolt://localhost:7687', neo4j.auth.basic('neo4j', 'root'))
 const session = driver.session()
 
 app.get('/', function (req, res) {
@@ -129,7 +129,7 @@ app.post('/movie/person/create', function (req, res) {
     const yearPerfomance = req.body.yearPerfomance
 
     session
-        .run(`CREATE (per:Person {name: '${name}'})-[:ACTED_IN {year: ${yearPerfomance}}]-> (mov:Movie {title: '${title}'}) return per, mov`)
+        .run(`CREATE (per:Person {name: '${name}'})-[:ACTED_IN {year: '${yearPerfomance}'}]-> (mov:Movie {title: '${title}'}) return per, mov`)
         .then(function (result) {
             res.redirect('/')
         })
@@ -150,6 +150,88 @@ app.post('/movie/person/list', function (req, res) {
             })
             res.redirect('/')
         }).catch(function (err) {
+            console.log(err)
+        })
+})
+
+app.post('/person/friend/add', function (req, res) {
+    const nameActorOne = req.body.nameActorOne
+    const nameActorTwo = req.body.nameActorTwo
+
+    session
+        .run(`MATCH (perOne:Person {name:'${nameActorOne}'}), (perTwo: Person {name: '${nameActorTwo}'}) MERGE(perOne)-[:IS_FRIENDS_WITH]-> (perTwo) RETURN perOne, perTwo`)
+        .then(function (result) {
+            res.redirect('/')
+        }).catch(function (err) {
+            console.log(err)
+        })
+})
+
+app.post('/movie/findAlias', function (req, res) {
+    const title = req.body.title
+
+    session
+        .run(`MATCH (mov: Movie) where mov.title = '${title}' return mov.title AS MovieName`)
+        .then(function (result) {
+            console.log('--- MOVIE ---')
+            result.records.forEach(function (record) {
+                console.log("ALIAS: ", record.keys[0], " DATA: ", record._fields[0])
+            })
+            res.redirect('/')
+        }).catch(function (err) {
+            console.log(err)
+        })
+})
+
+app.post('/movie/addDescription', function (req, res) {
+    const title = req.body.title
+    const description = req.body.description
+
+    session
+        .run(`MATCH (mov: Movie {title: '${title}'}) SET mov.description = '${description}'`)
+        .then(function (result) {
+            res.redirect('/')
+        }).catch(function (err) {
+            console.log(err)
+        })
+})
+
+app.post('/person/addSince', function (req, res) {
+    const personOne = req.body.personOne
+    const personTwo = req.body.personTwo
+    const since = req.body.since
+
+    session
+        .run(`MATCH (perOne: Person {name: '${personOne}'})-[friendship:IS_FRIENDS_WITH]->(perTwo: Person {name: '${personTwo}'}) SET friendship.since= '${since}'`)
+        .then(function () {
+            res.redirect('/')
+        })
+        .catch(function (err) {
+            console.log(err)
+        })
+})
+
+app.post('/person/deleteFriendship', function (req, res) {
+    const personOne = req.body.personOne
+    const personTwo = req.body.personTwo
+
+    session
+        .run(`MATCH (perOne: Person {name: '${personOne}'})-[friend: IS_FRIENDS_WITH]->(perTwo: Person {name: '${personTwo}'}) DELETE friend`)
+        .then(function () {
+            res.redirect('/')
+        }).catch(function (err) {
+            console.log(err)
+        })
+})
+
+app.post('/person/delete', function (req, res) {
+    const name = req.body.name
+
+    session
+        .run(`MATCH (per: Person {name: '${name}'}) DELETE per`)
+        .then(function(){
+            res.redirect('/')
+        }).catch(function(err){
             console.log(err)
         })
 })

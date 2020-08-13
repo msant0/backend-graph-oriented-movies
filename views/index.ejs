@@ -60,6 +60,58 @@
 <form method="post" action="/movie/person/list">
     <h2>List Movies that the actor acted</h2>
     <label>Actor Name<label><br>
+            <input type="text" name="name"><br>
+            <br><br>
+            <input type="submit" value="submit">
+</form>
+<form method="post" action="/person/friend/add">
+    <h2>Add relantionship [:IS_FRIENDS_WITH] between two Persons</h2>
+    <label>1º Actor Name</label><br>
+    <input type="text" name="nameActorOne"><br>
+    <label>2º Actor Name</label><br>
+    <input type="text" name="nameActorTwo"><br>
+    <br><br>
+    <input type="submit" value="submit">
+</form>
+<form method="post" action="/movie/findAlias">
+    <h2>Find movie with ALIAS</h2>
+    <label>Movie Name</label>
+    <input type="text" name="title"><br>
+    <br><br>
+    <input type="submit" value="submit">
+</form>
+<form method="post" action="/movie/addDescription">
+    <h2>Add the 'description' propertie to the movie</h2>
+    <label>Select the Movie</label><br>
+    <input type="text" name="title"><br>
+    <label>Enter description</label><br>
+    <input type="text" name="description"><br>
+    <br><br>
+    <input type="submit" value="submit">
+</form>
+<form method="post" action="/person/addSince">
+    <h2>Add 'since' propertie to the relationship between two persons</h2>
+    <label>Type the 1ºPerson</label><br>
+    <input type="text" name="personOne"><br>
+    <label>Type the 2ºPerson</label><br>
+    <input type="text" name="personTwo"><br>
+    <label>Add the propertie 'since'</label><br>
+    <input type="text" name="since"><br>
+    <br><br>
+    <input type="submit" value="submit">
+</form>
+<form method="post" action="/person/deleteFriendship">
+    <h2>Remove relantionship [:IS_FRIENDS_WITH]</h2>
+    <label>Type the 1ºPerson</label><br>
+    <input type="text" name="personOne"><br>
+    <label>Type the 2ºPerson</label><br>
+    <input type="text" name="personTwo"><br>
+    <br><br>
+    <input type="submit" value="submit">
+</form>
+<form method="post" action="/person/deleteFriendship">
+    <h2>Remove Person node</h2>
+    <label>Type the Person</label><br>
     <input type="text" name="name"><br>
     <br><br>
     <input type="submit" value="submit">
