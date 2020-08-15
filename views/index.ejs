@@ -169,41 +169,40 @@
     <li><%= person.name %></li>
     <% }) %>
 </ul>
-<h1>Lists of Filter</h1>
+<h1>Lists of Filter Types</h1>
 <ul>
+    <h2><i>Filters Generally</i></h2>
     <h4>(language:br) Nega propriedade, ou seja, filtra todos os atores que não sejam o Spencer Spillber</h4>
     <h3>✓ ` MATCH (per:Person) where NOT per.name='Spencer Spillber' return per `</h3>
-    <br>
     <h4>(language:br) Estudar em um futuro uso, como funciona o filtro por tempo</h4>
     <h3>✓ // Query Example: MATCH (p:Person) WHERE 3 <= p.yearsExp <= 7 RETURN p</h3>
-    <br>
     <h4>(language:br) Retorna todos os filmes que tenham a propriedade 'ano'</h4>
     <h3>✓ `MATCH (mov:Movie) where exists(mov.year) return mov`</h3>
-    <br>
     <h4>(language:br) Retorna todos os relacionamentos de atores que existe a propriedade 'since' no relacionamento</h4>
     <h3>✓ `MATCH (per:Person)-[friendship:IS_FRIENDS_WITH]->(perTwo:Person) where exists(friendship.since) return per, perTwo, friendship`</h3>
-    <br>
     <h4>(language:br) Retorna todos os filmes, onde a propriedade 'title' COMECE com a sintaxe 'Like'</h4>
     <h3>✓ `MATCH (mov:Movie) where mov.title STARTS WITH 'Like' return mov`</h3>
-    <br>
     <h4>(language:br) Retorna todos os filmes, onde na propriedade 'ano' EXISTA a sintaxe '19'</h4>
     <h3>✓ `MATCH (mov:Movie) where mov.year CONTAINS '19' return mov`</h3>
-    <br>
     <h4>(language:br) Retorna todos os filmes, onde na propriedade 'title' TERMINE com a sintaxe 'Boss'</h4>
     <h4>obs: O Neo4j é case sensitive</h4>
-    <h3>✓ `MATCH (mov:Movie) where mov.title ENDS WITH 'Boss' return mov`</h3>
-    <br>
     <h4>(language:br) Retorna todos os nomes dos nós dos atores que compartilham o primeiro nome 'Eduardo'</h4>
     <h3>✓ `MATCH (per:Person) where per.name='Eduardo.*' return per.name`</h3>
-    <br>
     <h4>(language:br) Estudar em um futuro uso, de utilizar filtros com o IN</h4>
     <h3>✓ // Query example: `MATCH (p:Person) WHERE p.yearsExp IN [1, 5, 6] RETURN p.name, p.yearsExp`</h3>
-    <br>
     <h4>(language:br) Retorna todos os amigos do ator 'Kadu Moliterno' que atuou no filme 'The Glass'</h4>
     <h3>✓ `MATCH (per:Person)-[:IS_FRIENDS_WITH]->(per2:Person) where exists((per)-[:ACTED_IN]->(:Movie {title:'The Glass'})) return p`</h3>
-    <br>
     <h4>(language:br) Estudar em um futuro uso, de utilizar a sintaxe de OPTIONAL MATCH</h4>
     <h4>obs: OPTIONAL MATCH é usado como uma comparação de menor peso, onde que se ele não é encontrado na busca ele retorna NULL</h4>
     <h3>✓ MATCH (p:Person) WHERE p.name STARTS WITH 'L' OPTIONAL MATCH (p)-[:ACTED_IN]-(mov:Movie) RETURN p.name, mov.name</h3>
+    <h2><i>SubQueries</i></h2>
+    <h3>(language:br) Filtro que retorna todas as amizades de atores que atuaram no filme "The Glass"</h3>
+    <h4>✓ MATCH (per:Person)-[r:IS_FRIENDS_WITH]->(friend:Person) where exists ((per)-[:ACTED_IN]->(:Movie {title: 'The Glass'})) return per,friend,r</h4>
+    <h3>(language:br) Faz a mesma busca que a de cima, porém utilizando a sintaxe exists {}</h3>
+    <h4>✓ MATCH (per:Person)-[r:IS_FRIENDS_WITH]->(friend:Person) where exists {MATCH (per)-[:ACTED_IN]->(mov:Movie {title:'The Glass'})} return per, r, friend</h4>
+    <h3>(language:br) Filtra os dados de um ator que atuou no filme que começou com "The" e possui amizade com outro ator que tem o seu nome, começando com "Kadu"</h3>
+    <h4>✓ MATCH (per:Person)-[:ACTED_IN]->(movie) where movie.title STARTS WITH "The" AND EXISTS{ MATCH (per)-[:IS_FRIENDS_WITH]->(friend:Person) where friend.name STARTS WITH 'Kadu' }return per</h4>
+    <h3>(language:br) Filtra os atores que atuou no filme 'The Glass' e que possui amizade com o ator 'Leonardo Machado'</h3>
+    <h4>✓ MATCH (per:Person)-[:ACTED_IN]->(mov:Movie {title:'The Glass'}) where exists{MATCH (per:Person)-[:IS_FRIENDS_WITH]->(friend:Person) WHERE friend.name= 'Leonardo Machado'} return per</h4>
 </ul>
 
